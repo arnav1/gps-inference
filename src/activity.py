@@ -626,11 +626,3 @@ def haversine_np(lon1, lat1, lon2, lat2):
     km = 6367 * c
     return km
 
-
-def apply_stop_duration(df, duration=3):
-    """
-    Applies the stop duration filter to fully processed dataset.
-    """
-    df = df.loc[~((df["EventType"] == "stopping") & (df[DURATION_COL] < duration))]
-    unique_events = (df["EventType"] != df["EventType"].shift(1)).cumsum()
-    return df.loc[unique_events.shift(1) != unique_events]  # keep first
